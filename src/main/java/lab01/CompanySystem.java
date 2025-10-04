@@ -1,8 +1,5 @@
 package lab01;
-import java.util.Comparator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class CompanySystem {
@@ -12,6 +9,7 @@ public class CompanySystem {
         this.employees = new ArrayList<>();
     }
 
+    //Dodawanie nowego pracownika do systemu z walidacją unikalności adresu email przed dodaniem
     public void addEmployee(Employee newEmployee) {
         boolean exists = employees.stream()
                 .anyMatch(emp -> emp.getEmail().equals(newEmployee.getEmail()));
@@ -24,11 +22,13 @@ public class CompanySystem {
         }
     }
 
+    //Wyświetlanie listy wszystkich pracowników w systemie
     public void showEmployees() {
         System.out.println("\nLista pracowników: ");
         employees.forEach(System.out::println);
     }
 
+    //Wyszukiwanie pracowników zatrudnionych w konkretnej firmie (i od razu pokazanie ich)
     public List<Employee> findByCompany(String company) {
         List<Employee> result = employees.stream()
                 .filter(emp -> emp.getCompany().equals(company))
@@ -39,6 +39,8 @@ public class CompanySystem {
         return result;
     }
 
+    //Prezentacja pracowników w kolejności alfabetycznej według nazwiska
+    //sortowanie
     public List<Employee> sortByLastName() {
         return employees.stream()
                 .sorted(Comparator.comparing(
@@ -47,14 +49,39 @@ public class CompanySystem {
                 .toList();
     }
 
+    //prezentacja posortowanych
     public void showEmployeesSorted() {
         List<Employee> sorted = sortByLastName();
         System.out.println("\nLista pracowników w kolejności alfabetycznej: ");
         sorted.forEach(System.out::println);
     }
 
+    //Grupowanie pracowników według zajmowanego stanowiska
     public Map<Position, List<Employee>> groupByPosition() {
         return employees.stream()
                 .collect(Collectors.groupingBy(Employee::getPosition));
+    }
+
+    //Zliczanie liczby pracowników na każdym stanowisku
+    public Map<Position, Integer> countByPosition() {
+        Map<Position, List<Employee>> grouped = groupByPosition();
+        return grouped.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> e.getValue().size()
+                ));
+    }
+
+    //Obliczanie średniego wynagrodzenia w całej organizacji
+    public double countAverageSalary() {
+        return employees.stream()
+                .mapToDouble(Employee::getSalary)
+                .average().orElse(0);
+    }
+
+    //Identyfikacja pracownika z najwyższym wynagrodzeniem
+    public Optional<Employee> findByHighestSalary() {
+        return employees.stream()
+                .max(Comparator.comparingDouble(Employee::getSalary));
     }
 }

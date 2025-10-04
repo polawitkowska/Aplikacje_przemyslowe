@@ -2,6 +2,7 @@ package lab01;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,10 +16,18 @@ public class Main {
         system.addEmployee(emp2);
         system.addEmployee(emp3);
         system.addEmployee(emp4);
-//        system.showEmployees();
+        system.showEmployees();
         system.showEmployeesSorted();
 
-//        List<Employee> empTechCorp = system.findByCompany("TechCorp");
+        system.findByCompany("TechCorp");
+
         Map<Position, List<Employee>> grouped = system.groupByPosition();
+        Map<Position, Integer> counted = system.countByPosition();
+        double average = system.countAverageSalary();
+        Optional<Employee> mostPaying = system.findByHighestSalary();
+        System.out.println("\nPracownicy pogrupowani po stanowiskach:\n" + grouped);
+        System.out.println("\nZliczona ilość pracowników na każdym stanowisku:\n" + counted);
+        System.out.println("\nŚrednie wynargordzenie:\n" + average);
+        System.out.println("\nPracownik z najwyższą pensją:\n" + mostPaying);
     }
 }
