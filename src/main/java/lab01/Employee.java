@@ -7,10 +7,10 @@ public class Employee {
     private Position position;
     private int salary;
 
-    Employee(String fullName, String email, Position position) {
+    Employee(String fullName, String email, String company, Position position) {
         this.fullName = fullName;
         this.email = email;
-        this.company = "TechCorp";
+        this.company = company;
         this.position = position;
         this.salary = position.getBaseSalary();
     }
@@ -30,6 +30,11 @@ public class Employee {
     public String getCompany() {
         return company;
     }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
 
     public Position getPosition() {
         return position;
