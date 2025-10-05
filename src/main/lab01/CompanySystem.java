@@ -2,7 +2,7 @@ package lab01;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class CompanySystem {
+public class CompanySystem implements CompanySystemInterface {
     private List<Employee> employees;
 
     public CompanySystem() {
@@ -15,11 +15,16 @@ public class CompanySystem {
                 .anyMatch(emp -> emp.getEmail().equals(newEmployee.getEmail()));
 
         if (exists) {
-            System.out.println("Pracownik z mailem " + newEmployee.getEmail() + " już istnieje.");
+            throw new RuntimeException("Pracownik z mailem " + newEmployee.getEmail() + " już istnieje.");
         } else {
             employees.add(newEmployee);
             System.out.println("Dodano nowego pracownika: " + newEmployee.getName() + ".");
         }
+    }
+
+    //Getter listy pracownikow
+    public List<Employee> getEmployees() {
+        return employees;
     }
 
     //Wyświetlanie listy wszystkich pracowników w systemie
