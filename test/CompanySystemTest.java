@@ -1,9 +1,10 @@
-package lab01;
+import main.lab01.CompanySystem;
+import main.lab01.Employee;
+import main.lab01.Position;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

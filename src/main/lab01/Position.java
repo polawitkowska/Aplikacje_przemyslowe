@@ -1,4 +1,4 @@
-package lab01;
+package main.lab01;
 
 public enum Position {
     PREZES(25000, 1),
