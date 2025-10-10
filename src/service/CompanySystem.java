@@ -1,4 +1,7 @@
-package lab01;
+package service;
+import model.Employee;
+import model.Position;
+
 import java.util.*;
 import java.util.stream.Collectors;
 

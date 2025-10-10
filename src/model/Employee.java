@@ -1,4 +1,4 @@
-package lab01;
+package model;
 
 public class Employee {
     private String fullName;
@@ -7,7 +7,7 @@ public class Employee {
     private Position position;
     private int salary;
 
-    Employee(String fullName, String email, String company, Position position) {
+    public Employee(String fullName, String email, String company, Position position) {
         this.fullName = fullName;
         this.email = email;
         this.company = company;
