@@ -46,7 +46,7 @@ public class ImportService {
                         continue;
                     }
                 } catch (NumberFormatException e) {
-                    errors.add("Linia " + lineNumber + ": Nieprawidłowy format wynagrodzenia: " + parts[5]);
+                    errors.add("Linia " + lineNumber + " " + e.getMessage());
                     continue;
                 }
 

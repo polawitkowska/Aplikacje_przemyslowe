@@ -1,6 +1,8 @@
+import exception.ApiException;
 import model.Employee;
 import model.ImportSummary;
 import model.Position;
+import service.ApiService;
 import service.CompanySystem;
 import service.ImportService;
 
@@ -9,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ApiException {
         CompanySystem system = new CompanySystem();
         Employee emp1 = new Employee("Jan",  "Kowalski", "jan.kowalski@gmail.com", "TechCorp", Position.PREZES, Position.PREZES.getBaseSalary());
         Employee emp2 = new Employee("Anna", "Nowak", "anna.nowak@gmail.com", "TechCorp", Position.WICEPREZES, Position.WICEPREZES.getBaseSalary());
@@ -37,5 +39,8 @@ public class Main {
         ImportService importService = new ImportService();
         ImportSummary imported = importService.importFromCsv("./resources/employees.csv", system);
         System.out.println("\nImported: " + imported.getImported() + "\nBłędy przy importowaniu: " + imported.getErrors());
+
+        ApiService apiService = new ApiService();
+//        apiService.fetchEmployeesFromApi("https://jsonplaceholder.typicode.com/users");
     }
 }
