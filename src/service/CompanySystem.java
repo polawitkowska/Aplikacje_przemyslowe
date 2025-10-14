@@ -21,7 +21,7 @@ public class CompanySystem implements CompanySystemInterface {
             throw new RuntimeException("Pracownik z mailem " + newEmployee.getEmail() + " już istnieje.");
         } else {
             employees.add(newEmployee);
-            System.out.println("Dodano nowego pracownika: " + newEmployee.getName() + ".");
+            System.out.println("Dodano nowego pracownika: " + newEmployee.getFullName() + ".");
         }
     }
 
@@ -52,7 +52,7 @@ public class CompanySystem implements CompanySystemInterface {
     public List<Employee> sortByLastName() {
         return employees.stream()
                 .sorted(Comparator.comparing(
-                        emp -> emp.getName().split(" ")[1]
+                        Employee::getLastName
                 ))
                 .toList();
     }
