@@ -29,29 +29,33 @@ public class ApiService {
             throw new ApiException("Błąd przy pobieraniu odpowiedzi: " + e.getMessage());
         }
 
-        System.out.println("\nKod statusu: " + response.statusCode());
-        String jsonResponse = response.body();
+        if (response.statusCode() == 200) {
+            String jsonResponse = response.body();
 
-        Gson gson = new Gson();
-        JsonArray jsonArray = gson.fromJson(jsonResponse, JsonArray.class);
-        List<Employee> employees = new ArrayList<>();
+            Gson gson = new Gson();
+            JsonArray jsonArray = gson.fromJson(jsonResponse, JsonArray.class);
+            List<Employee> employees = new ArrayList<>();
 
-        for (JsonElement element : jsonArray) {
-            JsonObject employeeObject = element.getAsJsonObject();
-            String[] nameParts = employeeObject.get("name").getAsString().split(" ", 2);
-            String firstName = nameParts[0];
-            String lastName = nameParts.length > 1 ? nameParts[1] : "";
+            for (JsonElement element : jsonArray) {
+                JsonObject employeeObject = element.getAsJsonObject();
+                String[] nameParts = employeeObject.get("name").getAsString().split(" ", 2);
+                String firstName = nameParts[0];
+                String lastName = nameParts.length > 1 ? nameParts[1] : "";
 
-            Employee employee = new Employee(
-                    firstName, lastName,
-                    employeeObject.get("email").getAsString(),
-                    employeeObject.getAsJsonObject("company").get("name").getAsString(),
-                    Position.PROGRAMISTA, Position.PROGRAMISTA.getBaseSalary()
+                Employee employee = new Employee(
+                        firstName, lastName,
+                        employeeObject.get("email").getAsString(),
+                        employeeObject.getAsJsonObject("company").get("name").getAsString(),
+                        Position.PROGRAMISTA, Position.PROGRAMISTA.getBaseSalary()
 
-            );
-            employees.add(employee);
+                );
+                employees.add(employee);
+            }
+
+            return employees;
+        } else {
+            throw new ApiException("Błąd przy pobieraniu odpowiedzi.");
         }
 
-        return employees;
     }
 }

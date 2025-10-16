@@ -94,7 +94,7 @@ public class CompanySystemTest {
         system.addEmployee(emp1);
         system.addEmployee(emp2);
 
-        double average = system.countAverageSalary();
+        double average = system.countAverageSalary("TechCorp");
 
         assertEquals(12000.0, average);
     }

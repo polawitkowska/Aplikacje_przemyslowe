@@ -1,4 +1,5 @@
 package service;
+import model.CompanyStatistics;
 import model.Employee;
 import model.Position;
 
@@ -42,8 +43,6 @@ public class CompanySystem implements CompanySystemInterface {
                 .filter(emp -> emp.getCompany().equals(company))
                 .toList();
 
-        System.out.println("\nLista pracowników z " + company + ": ");
-        result.forEach(System.out::println);
         return result;
     }
 
@@ -81,15 +80,53 @@ public class CompanySystem implements CompanySystemInterface {
     }
 
     //Obliczanie średniego wynagrodzenia w całej organizacji
-    public double countAverageSalary() {
-        return employees.stream()
+    public double countAverageSalary(String company) {
+        List<Employee> employeesFromComp = findByCompany(company);
+        return employeesFromComp.stream()
                 .mapToDouble(Employee::getSalary)
                 .average().orElse(0);
     }
 
     //Identyfikacja pracownika z najwyższym wynagrodzeniem
-    public Optional<Employee> findByHighestSalary() {
-        return employees.stream()
+    public Optional<Employee> findByHighestSalary(String company) {
+        List<Employee> employeesFromComp = findByCompany(company);
+        return employeesFromComp.stream()
                 .max(Comparator.comparingDouble(Employee::getSalary));
+    }
+
+    public List<Employee> validateSalaryConsistency() {
+        List<Employee> result = new ArrayList<>();
+        for (Employee e : employees) {
+            int baseSalary = e.getPosition().getBaseSalary();
+            if (e.getSalary() < baseSalary) {
+                result.add(e);
+            }
+        }
+        return result;
+    }
+
+    public Map<String, CompanyStatistics> getCompanyStatistics() {
+
+        return employees.stream()
+                .collect(Collectors.groupingBy(
+                        Employee::getCompany,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                list -> {
+                                    int count = list.size();
+
+                                    String companyName = list.get(0).getCompany();
+                                    int avgSalary = (int) countAverageSalary(companyName);
+
+                                    Optional<Employee> topEarner = findByHighestSalary(companyName);
+
+                                    String topName = topEarner
+                                            .map(e -> e.getFirstName() +
+                                                    " " + e.getLastName()).orElse("-");
+
+                                    return new CompanyStatistics(count, avgSalary, topName);
+                                }
+                        )
+                ));
     }
 }

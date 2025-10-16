@@ -16,7 +16,7 @@ public class Main {
         Employee emp1 = new Employee("Jan",  "Kowalski", "jan.kowalski@gmail.com", "TechCorp", Position.PREZES, Position.PREZES.getBaseSalary());
         Employee emp2 = new Employee("Anna", "Nowak", "anna.nowak@gmail.com", "TechCorp", Position.WICEPREZES, Position.WICEPREZES.getBaseSalary());
         Employee emp3 = new Employee("Karol", "Anioł", "karol.aniol@gmail.com", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
-        Employee emp4 = new Employee("Joanna", "Piotrowicz", "asia.piotrowicz@gmail.com", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
+        Employee emp4 = new Employee("Joanna", "Piotrowicz", "asia.piotrowicz@gmail.com", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary()-200);
 
         system.addEmployee(emp1);
         system.addEmployee(emp2);
@@ -29,8 +29,9 @@ public class Main {
 
         Map<Position, List<Employee>> grouped = system.groupByPosition();
         Map<Position, Integer> counted = system.countByPosition();
-        double average = system.countAverageSalary();
-        Optional<Employee> mostPaying = system.findByHighestSalary();
+        double average = system.countAverageSalary("TechCorp");
+        Optional<Employee> mostPaying = system.findByHighestSalary("TechCorp");
+
         System.out.println("\nPracownicy pogrupowani po stanowiskach:\n" + grouped);
         System.out.println("\nZliczona ilość pracowników na każdym stanowisku:\n" + counted);
         System.out.println("\nŚrednie wynargordzenie:\n" + average);
@@ -42,5 +43,8 @@ public class Main {
 
         ApiService apiService = new ApiService();
         System.out.println(apiService.fetchEmployeesFromApi("https://jsonplaceholder.typicode.com/users"));
+
+        System.out.println("\nPracownicy z wynagrodzeniem niższym niż ich bazowe: " + system.validateSalaryConsistency());
+        System.out.println("\nPodsumowanie " + system.getCompanyStatistics());
     }
 }

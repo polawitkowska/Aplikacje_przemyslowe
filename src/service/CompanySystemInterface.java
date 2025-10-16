@@ -14,6 +14,6 @@ public interface CompanySystemInterface {
     void showEmployeesSorted();
     Map<Position, List<Employee>> groupByPosition();
     Map<Position, Integer> countByPosition();
-    double countAverageSalary();
-    Optional<Employee> findByHighestSalary();
+    double countAverageSalary(String company);
+    Optional<Employee> findByHighestSalary(String company);
 }
