@@ -41,6 +41,6 @@ public class Main {
         System.out.println("\nImported: " + imported.getImported() + "\nBłędy przy importowaniu: " + imported.getErrors());
 
         ApiService apiService = new ApiService();
-//        apiService.fetchEmployeesFromApi("https://jsonplaceholder.typicode.com/users");
+        System.out.println(apiService.fetchEmployeesFromApi("https://jsonplaceholder.typicode.com/users"));
     }
 }

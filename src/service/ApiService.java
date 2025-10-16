@@ -10,6 +10,8 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import com.google.gson.*;
+import model.Position;
 
 public class ApiService {
     public List<Employee> fetchEmployeesFromApi(String apiUrl) throws ApiException {
@@ -27,10 +29,29 @@ public class ApiService {
             throw new ApiException("Błąd przy pobieraniu odpowiedzi: " + e.getMessage());
         }
 
-        System.out.println("Kod statusu: " + response.statusCode());
+        System.out.println("\nKod statusu: " + response.statusCode());
+        String jsonResponse = response.body();
 
+        Gson gson = new Gson();
+        JsonArray jsonArray = gson.fromJson(jsonResponse, JsonArray.class);
+        List<Employee> employees = new ArrayList<>();
 
+        for (JsonElement element : jsonArray) {
+            JsonObject employeeObject = element.getAsJsonObject();
+            String[] nameParts = employeeObject.get("name").getAsString().split(" ", 2);
+            String firstName = nameParts[0];
+            String lastName = nameParts.length > 1 ? nameParts[1] : "";
 
-        return new ArrayList<>();
+            Employee employee = new Employee(
+                    firstName, lastName,
+                    employeeObject.get("email").getAsString(),
+                    employeeObject.getAsJsonObject("company").get("name").getAsString(),
+                    Position.PROGRAMISTA, Position.PROGRAMISTA.getBaseSalary()
+
+            );
+            employees.add(employee);
+        }
+
+        return employees;
     }
 }
