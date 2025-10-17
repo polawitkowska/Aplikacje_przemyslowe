@@ -1,4 +1,5 @@
 package service;
+import model.CompanyStatistics;
 import model.Employee;
 import model.Position;
 
@@ -16,4 +17,6 @@ public interface CompanySystemInterface {
     Map<Position, Integer> countByPosition();
     double countAverageSalary(String company);
     Optional<Employee> findByHighestSalary(String company);
+    List<Employee> validateSalaryConsistency();
+    Map<String, CompanyStatistics> getCompanyStatistics();
 }
