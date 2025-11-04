@@ -1,7 +1,8 @@
-import main.lab01.CompanySystem;
-import main.lab01.Employee;
-import main.lab01.Position;
-import org.junit.jupiter.api.Test;
+
+import model.Employee;
+import model.Position;
+import org.junit.Test;
+import service.CompanySystem;
 
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CompanySystemTest {
     @Test
-    void testAddEmployee() {
+    public void testAddEmployee() {
         CompanySystem system = new CompanySystem();
-        Employee emp = new Employee("Jan Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
+        Employee emp = new Employee("Jan", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
 
         system.addEmployee(emp);
 
@@ -20,10 +21,10 @@ public class CompanySystemTest {
     }
 
     @Test
-    void emailsShouldBeUnique() {
+    public void emailsShouldBeUnique() {
         CompanySystem system = new CompanySystem();
-        Employee emp1 = new Employee("Jan Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
-        Employee emp2 = new Employee("Janek Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
+        Employee emp1 = new Employee("Jan", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
+        Employee emp2 = new Employee("Janek", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
 
         system.addEmployee(emp1);
 
@@ -31,10 +32,10 @@ public class CompanySystemTest {
     }
 
     @Test
-    void testFindByCompany() {
+    public void testFindByCompany() {
         CompanySystem system = new CompanySystem();
-        Employee emp1 = new Employee("Jan Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
-        Employee emp2 = new Employee("Anna Nowak", "anna.nowak@gmail.pl", "InnaFirma", Position.MANAGER);
+        Employee emp1 = new Employee("Jan", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
+        Employee emp2 = new Employee("Anna", "Nowak", "anna.nowak@gmail.pl", "InnaFirma", Position.MANAGER, Position.MANAGER.getBaseSalary());
 
         system.addEmployee(emp1);
         system.addEmployee(emp2);
@@ -43,10 +44,10 @@ public class CompanySystemTest {
     }
 
     @Test
-    void testSortByLastName() {
+    public void testSortByLastName() {
         CompanySystem system = new CompanySystem();
-        Employee emp1 = new Employee("Anna Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER);
-        Employee emp2 = new Employee("Jan Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
+        Employee emp1 = new Employee("Anna", "Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
+        Employee emp2 = new Employee("Jan", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
 
         system.addEmployee(emp1);
         system.addEmployee(emp2);
@@ -57,10 +58,10 @@ public class CompanySystemTest {
     }
 
     @Test
-    void groupByPosition() {
+    public void groupByPosition() {
         CompanySystem system = new CompanySystem();
-        Employee emp1 = new Employee("Anna Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER);
-        Employee emp2 = new Employee("Jan Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
+        Employee emp1 = new Employee("Anna", "Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
+        Employee emp2 = new Employee("Jan", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
 
         system.addEmployee(emp1);
         system.addEmployee(emp2);
@@ -71,10 +72,10 @@ public class CompanySystemTest {
     }
 
     @Test
-    void countByPosition() {
+    public void countByPosition() {
         CompanySystem system = new CompanySystem();
-        Employee emp1 = new Employee("Anna Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER);
-        Employee emp2 = new Employee("Jan Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
+        Employee emp1 = new Employee("Anna", "Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
+        Employee emp2 = new Employee("Jan", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
 
         system.addEmployee(emp1);
         system.addEmployee(emp2);
@@ -85,15 +86,15 @@ public class CompanySystemTest {
     }
 
     @Test
-    void testCountAverageSalary() {
+    public void testCountAverageSalary() {
         CompanySystem system = new CompanySystem();
-        Employee emp1 = new Employee("Anna Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER);
-        Employee emp2 = new Employee("Jan Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER);
+        Employee emp1 = new Employee("Anna", "Nowak", "anna.nowak@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
+        Employee emp2 = new Employee("Jan", "Kowalski", "jan.kowalski@gmail.pl", "TechCorp", Position.MANAGER, Position.MANAGER.getBaseSalary());
 
         system.addEmployee(emp1);
         system.addEmployee(emp2);
 
-        double average = system.countAverageSalary();
+        double average = system.countAverageSalary("TechCorp");
 
         assertEquals(12000.0, average);
     }

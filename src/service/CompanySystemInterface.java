@@ -1,4 +1,8 @@
-package main.lab01;
+package service;
+import model.CompanyStatistics;
+import model.Employee;
+import model.Position;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -11,6 +15,8 @@ public interface CompanySystemInterface {
     void showEmployeesSorted();
     Map<Position, List<Employee>> groupByPosition();
     Map<Position, Integer> countByPosition();
-    double countAverageSalary();
-    Optional<Employee> findByHighestSalary();
+    double countAverageSalary(String company);
+    Optional<Employee> findByHighestSalary(String company);
+    List<Employee> validateSalaryConsistency();
+    Map<String, CompanyStatistics> getCompanyStatistics();
 }
