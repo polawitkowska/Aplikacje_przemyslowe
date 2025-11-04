@@ -1,4 +1,3 @@
-
 import model.Employee;
 import model.Position;
 import org.junit.Test;
