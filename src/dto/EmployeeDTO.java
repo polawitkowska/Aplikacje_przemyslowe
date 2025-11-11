@@ -1,20 +1,25 @@
-package model;
+package dto;
 
-public class Employee {
+import model.Position;
+import service.CompanySystem;
+
+public class EmployeeDTO {
     private String firstName;
     private String lastName;
     private String email;
     private String company;
     private Position position;
     private int salary;
+    private boolean status;
 
-    public Employee(String firstName, String lastName, String email, String company, Position position, int salary) {
+    public EmployeeDTO(String firstName, String lastName, String email, String company, Position position, int salary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.company = company;
         this.position = position;
         this.salary = salary;
+        this.status = false;
     }
 
     public String getFullName() {
@@ -43,7 +48,7 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email, CompanySystem system) {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email nie może być pusty ani null.");
         }
@@ -52,6 +57,11 @@ public class Employee {
         if (!email.matches(emailRegex)) {
             throw new IllegalArgumentException("Email ma nieprawidłowy format.");
         }
+
+        system.getEmployees().stream()
+                .anyMatch(e -> email.equals(e.getEmail()));
+
+        this.email = email;
     }
 
     public String getEmail() {
@@ -94,21 +104,9 @@ public class Employee {
         this.salary = salary;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return email.equals(employee.email);
-    }
+    public boolean getStatus() { return status; }
 
-    @Override
-    public int hashCode() {
-        return email.hashCode();
-    }
-
-    @Override
-    public String toString() {
-        return "First name: %s, last name: %s, email: %s, company: %s, position: %s, salary: %s zł".formatted(firstName, lastName, email, company, position, salary);
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 }
