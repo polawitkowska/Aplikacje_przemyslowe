@@ -46,6 +46,13 @@ public class CompanySystem implements CompanySystemInterface {
         return result;
     }
 
+    public Employee findByEmail(String email) {
+        return employees.stream()
+                .filter(emp -> emp.getEmail().equals(email))
+                .findFirst()
+                .orElse(null);
+    }
+
     //Prezentacja pracowników w kolejności alfabetycznej według nazwiska
     //sortowanie
     public List<Employee> sortByLastName() {
@@ -113,7 +120,11 @@ public class CompanySystem implements CompanySystemInterface {
                         Collectors.collectingAndThen(
                                 Collectors.toList(),
                                 list -> {
-                                    int count = list.size();
+                                    Map<String, Integer> countByPosition = list.stream()
+                                            .collect(Collectors.groupingBy(
+                                                    e -> e.getPosition().toString(),
+                                                    Collectors.summingInt(e -> 1)
+                                            ));
 
                                     String companyName = list.get(0).getCompany();
                                     int avgSalary = (int) countAverageSalary(companyName);
@@ -124,7 +135,7 @@ public class CompanySystem implements CompanySystemInterface {
                                             .map(e -> e.getFirstName() +
                                                     " " + e.getLastName()).orElse("-");
 
-                                    return new CompanyStatistics(count, avgSalary, topName);
+                                    return new CompanyStatistics(countByPosition, avgSalary, topName);
                                 }
                         )
                 ));

@@ -1,14 +1,16 @@
 package dto;
 
+import java.util.Map;
+
 public class CompanyStatisticsDTO {
     private String companyName;
-    private int employeeCount;
+    private Map<String, Integer> employeeCount;
     private int averageSalary;
     private String topEarnerName;
 
     public CompanyStatisticsDTO() {}
 
-    public CompanyStatisticsDTO(String companyName, int employeeCount, int averageSalary, String highestSalaryEmp) {
+    public CompanyStatisticsDTO(String companyName, Map<String, Integer> employeeCount, int averageSalary, String highestSalaryEmp) {
         this.companyName = companyName;
         this.employeeCount = employeeCount;
         this.averageSalary = averageSalary;
@@ -19,40 +21,15 @@ public class CompanyStatisticsDTO {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public int getEmployeeCount() {
+    public Map<String, Integer> getEmployeeCount() {
         return employeeCount;
-    }
-
-    public void setEmployeeCount(int employeeCount) {
-        if (employeeCount < 0) {
-            throw new IllegalArgumentException("Liczba pracowników nie może być ujemna");
-        }
-        this.employeeCount = employeeCount;
     }
 
     public int getAverageSalary() {
         return averageSalary;
     }
 
-    public void setAverageSalary(int averageSalary) {
-        if (averageSalary < 0) {
-            throw new IllegalArgumentException("Średnie wynagrodzenie nie może być ujemne");
-        }
-        this.averageSalary = averageSalary;
-    }
-
     public String getHighestSalaryEmp() {
         return topEarnerName;
-    }
-
-    public void setHighestSalaryEmp(String highestSalaryEmp) {
-        if (highestSalaryEmp == null) {
-            throw new IllegalArgumentException("Pracownik nie może być null");
-        }
-        this.topEarnerName = highestSalaryEmp;
     }
 }
