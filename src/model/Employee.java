@@ -7,6 +7,7 @@ public class Employee {
     private String company;
     private Position position;
     private int salary;
+    private EmploymentStatus status;
 
     public Employee(String firstName, String lastName, String email, String company, Position position, int salary) {
         this.firstName = firstName;
@@ -15,6 +16,7 @@ public class Employee {
         this.company = company;
         this.position = position;
         this.salary = salary;
+        this.status = EmploymentStatus.ACTIVE;
     }
 
     public String getFullName() {
@@ -94,6 +96,17 @@ public class Employee {
         this.salary = salary;
     }
 
+    public EmploymentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EmploymentStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException("Status zatrudnienia nie może być null.");
+        }
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -109,6 +122,6 @@ public class Employee {
 
     @Override
     public String toString() {
-        return "First name: %s, last name: %s, email: %s, company: %s, position: %s, salary: %s zł".formatted(firstName, lastName, email, company, position, salary);
+        return "First name: %s, last name: %s, email: %s, company: %s, position: %s, salary: %s zł, status: %s".formatted(firstName, lastName, email, company, position, salary, status);
     }
 }

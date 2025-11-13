@@ -2,6 +2,7 @@ package controller;
 
 import dto.EmployeeDTO;
 import model.Employee;
+import model.EmploymentStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.CompanySystem;
@@ -151,5 +152,38 @@ public class EmployeeController {
         employees.removeIf(e -> Objects.equals(e.getEmail(), email));
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/api/employees/{email}/status")
+    public ResponseEntity<EmployeeDTO> updateEmployeeStatus(@RequestBody EmploymentStatus request, @PathVariable String email) {
+        Employee employeeFound = companySystem.findByEmail(email);
+        EmployeeDTO dto = new EmployeeDTO( employeeFound.getFirstName(), employeeFound.getLastName(),
+                employeeFound.getEmail(), employeeFound.getCompany(), employeeFound.getPosition(),
+                employeeFound.getSalary() );
+
+        if (request != null) employeeFound.setStatus(request);
+
+        return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/api/employees/status/{status}")
+    public ResponseEntity<List<EmployeeDTO>> getEmployeesByStatus(@PathVariable EmploymentStatus status) {
+        List<Employee> employees = companySystem.getEmployees();
+        List<EmployeeDTO> result = new ArrayList<>();
+
+        for (Employee e : employees) {
+            if (e.getStatus() == status) {
+                result.add(new EmployeeDTO(
+                        e.getFirstName(),
+                        e.getLastName(),
+                        e.getEmail(),
+                        e.getCompany(),
+                        e.getPosition(),
+                        e.getSalary()
+                ));
+            }
+        }
+
+        return ResponseEntity.ok(result);
     }
 }

@@ -2,6 +2,7 @@ package service;
 import model.CompanyStatistics;
 import model.Employee;
 import model.Position;
+import model.EmploymentStatus;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -139,5 +140,19 @@ public class CompanySystem implements CompanySystemInterface {
                                 }
                         )
                 ));
+    }
+
+    // Filtrowanie pracowników po statusie
+    public List<Employee> findByStatus(EmploymentStatus status) {
+        if (status == null) return Collections.emptyList();
+        return employees.stream()
+                .filter(emp -> status.equals(emp.getStatus()))
+                .toList();
+    }
+
+    // Statystyki rozkładu statusów
+    public Map<EmploymentStatus, Long> getStatusStatistics() {
+        return employees.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus, Collectors.counting()));
     }
 }

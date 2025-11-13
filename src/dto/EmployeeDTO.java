@@ -1,5 +1,6 @@
 package dto;
 
+import model.EmploymentStatus;
 import model.Position;
 import service.CompanySystem;
 
@@ -10,7 +11,7 @@ public class EmployeeDTO {
     private String company;
     private Position position;
     private int salary;
-    private boolean status;
+    private EmploymentStatus status;
 
     public EmployeeDTO(String firstName, String lastName, String email, String company, Position position, int salary) {
         this.firstName = firstName;
@@ -19,7 +20,7 @@ public class EmployeeDTO {
         this.company = company;
         this.position = position;
         this.salary = salary;
-        this.status = false;
+        this.status = EmploymentStatus.ACTIVE;
     }
 
     public String getFullName() {
@@ -104,9 +105,14 @@ public class EmployeeDTO {
         this.salary = salary;
     }
 
-    public boolean getStatus() { return status; }
+    public EmploymentStatus getStatus() {
+        return status;
+    }
 
-    public void setStatus(boolean status) {
+    public void setStatus(EmploymentStatus status) {
+        if (status == null) {
+            throw new IllegalArgumentException("Status zatrudnienia nie może być null.");
+        }
         this.status = status;
     }
 }
