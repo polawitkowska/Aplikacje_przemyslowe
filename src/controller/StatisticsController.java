@@ -4,6 +4,7 @@ import dto.CompanyStatisticsDTO;
 import dto.EmployeeDTO;
 import model.CompanyStatistics;
 import model.Employee;
+import model.EmploymentStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import service.CompanySystem;
@@ -91,16 +92,16 @@ public class StatisticsController {
         return ResponseEntity.ok(result);
     }
 
-//    @GetMapping("/api/statistics/status")
-//    public ResponseEntity<Map<String, Integer>> getDistributionByStatus() {
-//        List<Employee> employees = companySystem.getEmployees();
-//        Map<String, Integer> statusDistribution = new HashMap<>();
-//
-//        for (Employee employee : employees) {
-//            String status = employee.getStatus();
-//            statusDistribution.merge(status, 1, Integer::sum);
-//        }
-//
-//        return ResponseEntity.ok(statusDistribution);
-//    }
+    @GetMapping("/api/statistics/status")
+    public ResponseEntity<Map<EmploymentStatus, Integer>> getDistributionByStatus() {
+        List<Employee> employees = companySystem.getEmployees();
+        Map<EmploymentStatus, Integer> statusDistribution = new HashMap<>();
+
+        for (Employee employee : employees) {
+            EmploymentStatus status = employee.getStatus();
+            statusDistribution.merge(status, 1, Integer::sum);
+        }
+
+        return ResponseEntity.ok(statusDistribution);
+    }
 }

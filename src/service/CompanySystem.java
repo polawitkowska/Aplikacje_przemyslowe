@@ -3,6 +3,7 @@ import model.CompanyStatistics;
 import model.Employee;
 import model.Position;
 import model.EmploymentStatus;
+import exception.DuplicateEmailException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +21,7 @@ public class CompanySystem implements CompanySystemInterface {
                 .anyMatch(emp -> emp.getEmail().equals(newEmployee.getEmail()));
 
         if (exists) {
-            throw new RuntimeException("Pracownik z mailem " + newEmployee.getEmail() + " już istnieje.");
+            throw new DuplicateEmailException(newEmployee.getEmail(), true);
         } else {
             employees.add(newEmployee);
             System.out.println("Dodano nowego pracownika: " + newEmployee.getFullName() + ".");
